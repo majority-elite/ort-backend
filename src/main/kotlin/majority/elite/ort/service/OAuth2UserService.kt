@@ -12,15 +12,13 @@ import org.springframework.stereotype.Service
 @Service
 @RequiredArgsConstructor
 class OAuth2UserService : DefaultOAuth2UserService() {
-    @Throws(OAuth2AuthenticationException::class)
-    override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User  {
-        val user = super.loadUser(userRequest)
-        val authorities = AuthorityUtils.createAuthorityList("ROLE_ADMIN")
-        val userNameAttributeName = userRequest.clientRegistration
-                .providerDetails
-                .userInfoEndpoint
-                .userNameAttributeName
+  @Throws(OAuth2AuthenticationException::class)
+  override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
+    val user = super.loadUser(userRequest)
+    val authorities = AuthorityUtils.createAuthorityList("ROLE_ADMIN")
+    val userNameAttributeName =
+      userRequest.clientRegistration.providerDetails.userInfoEndpoint.userNameAttributeName
 
-        return DefaultOAuth2User(authorities, user.attributes, userNameAttributeName)
-    }
+    return DefaultOAuth2User(authorities, user.attributes, userNameAttributeName)
+  }
 }
