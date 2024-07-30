@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: classpath:api.properties
   application:
     name: "ort"
   security:
@@ -12,7 +14,7 @@ spring:
             client-secret: ${KAKAO_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             provider: kakao
-            redirect-uri: ${KAKAO_REDIRECT_URI-URI}
+            redirect-uri: ${KAKAO_REDIRECT_URI}
             scope:
               - profile_nickname
               - profile_image
