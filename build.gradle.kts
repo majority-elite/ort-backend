@@ -1,8 +1,12 @@
+import org.jetbrains.kotlin.ir.backend.js.compile
+
 plugins {
   id("org.springframework.boot") version "3.3.1"
   id("io.spring.dependency-management") version "1.1.5"
   kotlin("jvm") version "1.9.24"
+  kotlin("plugin.jpa") version "1.9.24"
   kotlin("plugin.spring") version "1.9.24"
+  kotlin("plugin.noarg") version "1.9.24"
 }
 
 group = "majority.elite"
@@ -26,6 +30,7 @@ dependencies {
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
   testImplementation("org.springframework.security:spring-security-test")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 }
 
 kotlin { compilerOptions { freeCompilerArgs.addAll("-Xjsr305=strict") } }
