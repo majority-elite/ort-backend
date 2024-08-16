@@ -28,26 +28,26 @@ class OAuth2UserService(private val userRepository: UserRepository) : DefaultOAu
 
     println("signing in with OAuth2...")
 
-    this.loginWithKakao(user.attributes[userNameAttributeName] as Long)
+    this.loginWithKakao(user.attributes[userNameAttributeName] as String)
 
     println("""user ${user.attributes[userNameAttributeName]} signed in with OAuth2.""")
 
     return DefaultOAuth2User(user.authorities, user.attributes, userNameAttributeName)
   }
 
-  fun loginWithKakao(oauthId: Long) {
+  fun loginWithKakao(oauthId: String) {
     println(userRepository.findByOauthId(oauthId).toString())
 
     val existingUser = userRepository.findByOauthId(oauthId)
 
     if (existingUser == null) {
       println("Creating new user...")
-      val userEntity = UserEntity(oauthId, OAuthType.KAKAO)
+      val userEntity = UserEntity(oauthId.toString(), OAuthType.KAKAO)
       userRepository.save(userEntity)
     }
   }
 
-  fun getUserIdWithOAuthId(oauthId: Long): Long? {
+  fun getUserIdWithOAuthId(oauthId: String): Long? {
     return userRepository.findByOauthId(oauthId)?.id
   }
 }

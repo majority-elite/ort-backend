@@ -8,7 +8,7 @@ import majority.elite.ort.domain.UserAuthority
 @Entity
 @Table(name = "account")
 class UserEntity(
-  @Column(name = "oauth_id", nullable = true) val oauthId: Long?,
+  @Column(name = "oauth_id", nullable = true) val oauthId: String?,
   @Enumerated(EnumType.STRING)
   @Column(name = "oauth_type", nullable = true)
   val oauthType: OAuthType?,
