@@ -1,6 +1,21 @@
 spring:
   config:
     import: classpath:api.properties
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${RDB_CONNECTION_STRING}
+    username: ${RDB_USER}
+    password: ${RDB_PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        default-schema: ort
+        format_sql: true
+    generate-ddl: false
+    database: postgresql
   application:
     name: "ort"
   security:
