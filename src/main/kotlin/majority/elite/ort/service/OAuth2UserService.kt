@@ -47,8 +47,4 @@ class OAuth2UserService(private val userRepository: UserRepository) : DefaultOAu
       return userEntity
     } else return existingUser
   }
-
-  fun getUserIdWithOAuthId(oauthId: String): Long? {
-    return userRepository.findByOauthId(oauthId)?.id
-  }
 }
