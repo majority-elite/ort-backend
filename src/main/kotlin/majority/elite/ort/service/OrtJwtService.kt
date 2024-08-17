@@ -16,9 +16,9 @@ import majority.elite.ort.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class JwtService(private val userRepository: UserRepository, private val jwtConfig: JwtConfig) {
+class OrtJwtService(private val userRepository: UserRepository, private val jwtConfig: JwtConfig) {
   private fun getSignInKey(): SecretKeySpec {
-    val bytes = Base64.getDecoder().decode(jwtConfig.secret.toByteArray(StandardCharsets.UTF_8))
+    val bytes = Base64.getEncoder().encode(jwtConfig.secret.toByteArray(StandardCharsets.UTF_8))
     return SecretKeySpec(bytes, "HmacSHA256")
   }
 
@@ -35,11 +35,12 @@ class JwtService(private val userRepository: UserRepository, private val jwtConf
     return OrtJwt(
       Jwts.builder()
         .issuer("ort")
-        .subject("""USER$userId""")
+        .subject("USER$userId")
         .issuedAt(Date())
-        .claim("userId", userId)
+        .claim("userId", "$userId")
         .claim("role", user.get().role.name)
         .expiration(expiresAt)
+        .signWith(getSignInKey())
         .compact(),
       expiresAt,
     )
@@ -52,10 +53,11 @@ class JwtService(private val userRepository: UserRepository, private val jwtConf
     return OrtJwt(
       Jwts.builder()
         .issuer("ort")
-        .subject("""USER$userId""")
+        .subject("USER$userId")
         .issuedAt(Date())
-        .claim("userId", userId)
+        .claim("userId", "$userId")
         .expiration(expiresAt)
+        .signWith(getSignInKey())
         .compact(),
       expiresAt,
     )
