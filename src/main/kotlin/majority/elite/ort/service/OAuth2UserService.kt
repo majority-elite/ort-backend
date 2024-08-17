@@ -3,19 +3,19 @@ package majority.elite.ort.service
 import java.util.*
 import lombok.RequiredArgsConstructor
 import majority.elite.ort.domain.OAuthType
+import majority.elite.ort.domain.UserDetailsImpl
 import majority.elite.ort.entity.UserEntity
 import majority.elite.ort.repository.UserRepository
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User
 import org.springframework.stereotype.Service
 
 @Service
 @RequiredArgsConstructor
 class OAuth2UserService(private val userRepository: UserRepository) : DefaultOAuth2UserService() {
   @Throws(OAuth2AuthenticationException::class)
-  override fun loadUser(userRequest: OAuth2UserRequest): DefaultOAuth2User {
+  override fun loadUser(userRequest: OAuth2UserRequest): UserDetailsImpl {
     val user = super.loadUser(userRequest)
     val userNameAttributeName =
       userRequest.clientRegistration.providerDetails.userInfoEndpoint.userNameAttributeName
@@ -28,23 +28,24 @@ class OAuth2UserService(private val userRepository: UserRepository) : DefaultOAu
 
     println("signing in with OAuth2...")
 
-    this.loginWithKakao(user.attributes[userNameAttributeName] as String)
+    val userEntity = this.loginWithKakao(user.attributes[userNameAttributeName].toString())
 
     println("""user ${user.attributes[userNameAttributeName]} signed in with OAuth2.""")
 
-    return DefaultOAuth2User(user.authorities, user.attributes, userNameAttributeName)
+    return UserDetailsImpl.fromUserEntity(userEntity)
   }
 
-  fun loginWithKakao(oauthId: String) {
+  fun loginWithKakao(oauthId: String): UserEntity {
     println(userRepository.findByOauthId(oauthId).toString())
 
     val existingUser = userRepository.findByOauthId(oauthId)
 
     if (existingUser == null) {
       println("Creating new user...")
-      val userEntity = UserEntity(oauthId.toString(), OAuthType.KAKAO)
+      val userEntity = UserEntity(oauthId, OAuthType.KAKAO)
       userRepository.save(userEntity)
-    }
+      return userEntity
+    } else return existingUser
   }
 
   fun getUserIdWithOAuthId(oauthId: String): Long? {

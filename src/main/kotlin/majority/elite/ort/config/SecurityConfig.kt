@@ -2,8 +2,8 @@ package majority.elite.ort.config
 
 import java.util.*
 import lombok.RequiredArgsConstructor
-import majority.elite.ort.component.OAuth2ClientProvider
 import majority.elite.ort.handler.OAuth2SuccessHandler
+import majority.elite.ort.service.JwtService
 import majority.elite.ort.service.OAuth2UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -20,7 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource
 @RequiredArgsConstructor
 class SecurityConfig(
   private val oauth2UserService: OAuth2UserService,
-  private val oAuth2ClientProvider: OAuth2ClientProvider,
+  private val jwtService: JwtService,
 ) {
   @Bean
   fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -38,7 +38,7 @@ class SecurityConfig(
       oauth2Login {
         userInfoEndpoint {
           userInfoEndpoint { userService = oauth2UserService }
-          authenticationSuccessHandler = OAuth2SuccessHandler(oAuth2ClientProvider)
+          authenticationSuccessHandler = OAuth2SuccessHandler(jwtService)
         }
       }
       sessionManagement { sessionCreationPolicy = SessionCreationPolicy.STATELESS }
