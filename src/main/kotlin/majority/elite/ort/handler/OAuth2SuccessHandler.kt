@@ -21,7 +21,7 @@ class OAuth2SuccessHandler(private val ortJwtService: OrtJwtService) : Authentic
     val accessToken = ortJwtService.createAccessToken(userId)
     val refreshToken = ortJwtService.createRefreshToken(userId)
 
-    writer.write(OAuth2SuccessResponseDTO(userId.toLong(), accessToken, refreshToken).toString())
+    writer.write(OAuth2SuccessResponseDTO(userId, accessToken, refreshToken).toString())
     writer.flush()
   }
 }

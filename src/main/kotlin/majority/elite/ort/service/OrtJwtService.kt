@@ -34,7 +34,7 @@ class OrtJwtService(private val userRepository: UserRepository, private val jwtC
 
     return OrtJwt(
       Jwts.builder()
-        .issuer("ort")
+        .issuer(jwtConfig.issuer)
         .subject("USER$userId")
         .issuedAt(Date())
         .claim("userId", "$userId")
@@ -52,7 +52,7 @@ class OrtJwtService(private val userRepository: UserRepository, private val jwtC
 
     return OrtJwt(
       Jwts.builder()
-        .issuer("ort")
+        .issuer(jwtConfig.issuer)
         .subject("USER$userId")
         .issuedAt(Date())
         .claim("userId", "$userId")

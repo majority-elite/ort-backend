@@ -9,4 +9,5 @@ class JwtConfig {
   var secret: String = ""
   var accessTokenExpiresIn: Long = 0L
   var refreshTokenExpiresIn: Long = 0L
+  var issuer: String = ""
 }
