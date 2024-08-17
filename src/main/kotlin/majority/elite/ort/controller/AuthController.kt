@@ -8,6 +8,7 @@ import majority.elite.ort.exception.TokenExpiredException
 import majority.elite.ort.exception.UnauthorizedException
 import majority.elite.ort.service.OAuth2UserService
 import majority.elite.ort.service.OrtJwtService
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

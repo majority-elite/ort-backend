@@ -8,4 +8,5 @@ import org.springframework.context.annotation.Configuration
 class KakaoConfig {
   var logoutUri: String = ""
   var adminKey: String = ""
+  var unlinkUri: String = ""
 }

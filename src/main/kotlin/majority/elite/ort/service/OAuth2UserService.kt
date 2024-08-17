@@ -50,8 +50,6 @@ class OAuth2UserService(
   }
 
   private fun logoutKakao(oauthId: Long) {
-    println("kakao user $oauthId tries logout with admin key ${kakaoConfig.adminKey}")
-
     val restTemplate = RestTemplate()
     val headers = HttpHeaders()
     headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
@@ -68,15 +66,30 @@ class OAuth2UserService(
     } catch (badRequestException: BadRequest) {
       throw Exception("카카오 로그인에 실패했습니다. ${badRequestException.message}")
     }
+  }
 
-    println("Logout succeed")
+  private fun unlinkKakao(oauthId: Long) {
+    val restTemplate = RestTemplate()
+    val headers = HttpHeaders()
+    headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
+    headers.set("Authorization", "KakaoAK ${kakaoConfig.adminKey}")
+
+    val map = LinkedMultiValueMap<String, String>()
+    map.add("target_id_type", "user_id")
+    map.add("target_id", oauthId.toString())
+
+    val httpEntity = HttpEntity<MultiValueMap<String, String>>(map, headers)
+
+    try {
+      restTemplate.exchange(kakaoConfig.unlinkUri, HttpMethod.POST, httpEntity, String::class.java)
+    } catch (badRequestException: BadRequest) {
+      throw Exception("카카오 회원 탈퇴에 실패했습니다. ${badRequestException.message}")
+    }
   }
 
   @Throws(IllegalArgumentException::class, Exception::class)
   fun logout(userId: Long) {
     val userEntity = userRepository.findById(userId)
-
-    println(userEntity.get().oauthId)
 
     when (userEntity.get().oauthType) {
       OAuthType.KAKAO -> {
@@ -87,5 +100,21 @@ class OAuth2UserService(
         throw IllegalArgumentException()
       }
     }
+  }
+
+  fun deleteUser(userId: Long) {
+    val userEntity = userRepository.findById(userId)
+
+    when (userEntity.get().oauthType) {
+      OAuthType.KAKAO -> {
+        unlinkKakao(userEntity.get().oauthId!!.toLong())
+      }
+
+      else -> {
+        throw IllegalArgumentException()
+      }
+    }
+
+    userRepository.delete(userEntity.get())
   }
 }
