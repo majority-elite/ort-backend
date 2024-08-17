@@ -1,15 +1,27 @@
 package majority.elite.ort.service
 
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
+import java.lang.IllegalArgumentException
+import java.nio.charset.StandardCharsets
+import java.util.Base64
 import java.util.Date
+import javax.crypto.spec.SecretKeySpec
 import majority.elite.ort.config.JwtConfig
 import majority.elite.ort.domain.OrtJwt
+import majority.elite.ort.exception.TokenExpiredException
 import majority.elite.ort.exception.UnauthorizedException
 import majority.elite.ort.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
 class JwtService(private val userRepository: UserRepository, private val jwtConfig: JwtConfig) {
+  private fun getSignInKey(): SecretKeySpec {
+    val bytes = Base64.getDecoder().decode(jwtConfig.secret.toByteArray(StandardCharsets.UTF_8))
+    return SecretKeySpec(bytes, "HmacSHA256")
+  }
+
   @Throws(UnauthorizedException::class)
   fun createAccessToken(userId: Long): OrtJwt {
     val user = userRepository.findById(userId)
@@ -25,7 +37,7 @@ class JwtService(private val userRepository: UserRepository, private val jwtConf
         .issuer("ort")
         .subject("""USER$userId""")
         .issuedAt(Date())
-        .claim("userId", """$userId""")
+        .claim("userId", userId)
         .claim("role", user.get().role.name)
         .expiration(expiresAt)
         .compact(),
@@ -35,17 +47,32 @@ class JwtService(private val userRepository: UserRepository, private val jwtConf
 
   @Throws(UnauthorizedException::class)
   fun createRefreshToken(userId: Long): OrtJwt {
-    val expiresAt = Date(Date().time + jwtConfig.accessTokenExpiresIn)
+    val expiresAt = Date(Date().time + jwtConfig.refreshTokenExpiresIn)
 
     return OrtJwt(
       Jwts.builder()
         .issuer("ort")
         .subject("""USER$userId""")
         .issuedAt(Date())
-        .claim("userId", """$userId""")
-        .expiration(Date(Date().time + jwtConfig.refreshTokenExpiresIn))
+        .claim("userId", userId)
+        .expiration(expiresAt)
         .compact(),
       expiresAt,
     )
+  }
+
+  private fun parseClaims(token: String): Claims {
+    return Jwts.parser().verifyWith(this.getSignInKey()).build().parseSignedClaims(token).payload
+  }
+
+  @Throws(TokenExpiredException::class, IllegalArgumentException::class, JwtException::class)
+  fun verifyToken(token: String): Claims {
+    val parsedClaims = this.parseClaims(token)
+
+    if (parsedClaims.expiration.before(Date())) {
+      throw TokenExpiredException()
+    }
+
+    return parsedClaims
   }
 }
