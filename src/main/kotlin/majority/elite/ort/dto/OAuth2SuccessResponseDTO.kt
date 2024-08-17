@@ -1,6 +1,5 @@
 package majority.elite.ort.dto
 
-import java.text.SimpleDateFormat
 import majority.elite.ort.domain.OrtJwt
 
 class OAuth2SuccessResponseDTO(
@@ -13,9 +12,9 @@ class OAuth2SuccessResponseDTO(
       {
         "userId": $userId
         "accessToken": "${accessToken.tokenValue}"
-        "accessTokenExpiresAt": "${SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'").format(accessToken.expiresAt)}"
+        "accessTokenExpiresAt": "${accessToken.getExpiresAtIsoString()}"
         "refreshToken": "${refreshToken.tokenValue}"
-        "refreshTokenExpiresAt": "${SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'").format(refreshToken.expiresAt)}"
+        "refreshTokenExpiresAt": "${refreshToken.getExpiresAtIsoString()}"
       }
       """
       .trimIndent()
