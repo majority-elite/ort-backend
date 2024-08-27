@@ -10,8 +10,8 @@ import java.util.Date
 import javax.crypto.spec.SecretKeySpec
 import majority.elite.ort.config.JwtConfig
 import majority.elite.ort.domain.OrtJwt
-import majority.elite.ort.exception.auth.TokenExpiredException
 import majority.elite.ort.exception.UnauthorizedException
+import majority.elite.ort.exception.auth.TokenExpiredException
 import majority.elite.ort.repository.UserRepository
 import org.springframework.stereotype.Service
 
@@ -67,6 +67,7 @@ class OrtJwtService(private val userRepository: UserRepository, private val jwtC
     return Jwts.parser().verifyWith(this.getSignInKey()).build().parseSignedClaims(token).payload
   }
 
+  // 토큰 유효성 검사 및 Claim 추출하여 반환
   @Throws(TokenExpiredException::class, IllegalArgumentException::class, JwtException::class)
   fun verifyToken(token: String): Claims {
     val parsedClaims = this.parseClaims(token)

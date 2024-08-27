@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.stereotype.Component
 
+// TODO("사용하지 않는 코드, 삭제 필요")
 @Component
 @RequiredArgsConstructor
 class OAuth2ClientProvider(private val clientService: OAuth2AuthorizedClientService) {

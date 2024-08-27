@@ -9,7 +9,12 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 
 @RequiredArgsConstructor
-class OAuth2SuccessHandler(private val ortJwtService: OrtJwtService) : AuthenticationSuccessHandler {
+class OAuth2SuccessHandler(private val ortJwtService: OrtJwtService) :
+  AuthenticationSuccessHandler {
+  /*
+  회원가입 혹은 Refresh Token 만료 시 OAuth2 재로그인 필요
+  새로운 Refresh Token과 Access Token 발급하여 제공
+  */
   override fun onAuthenticationSuccess(
     request: HttpServletRequest,
     response: HttpServletResponse,

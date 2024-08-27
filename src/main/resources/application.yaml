@@ -9,6 +9,8 @@ spring:
   jpa:
     show-sql: true
     hibernate:
+      # 기존 정보를 모두 삭제하고 DB 생성
+      # 정보 유지가 필요하다면 update로 설정 필요
       ddl-auto: create-drop
     properties:
       hibernate:

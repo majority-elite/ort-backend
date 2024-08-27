@@ -8,6 +8,10 @@ import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.oauth2.core.user.OAuth2User
 
+/*
+* Spring Security에 활용할 유저 정보
+* 차후 로그인 방식이 추가된다면 해당 방식에서 사용할 유저 정보 클래스를 본 클래스에 상속
+*/
 class UserDetailsImpl(
   val id: Long,
   val oauthId: String?,
@@ -17,6 +21,7 @@ class UserDetailsImpl(
   val mail: String?,
   val tel: String?,
 ) : UserDetails, OAuth2User {
+  // static 함수 구현
   companion object {
     fun fromUserEntity(userEntiity: UserEntity): UserDetailsImpl {
       return UserDetailsImpl(

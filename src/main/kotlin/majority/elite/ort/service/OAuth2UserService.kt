@@ -18,13 +18,19 @@ class OAuth2UserService(
   private val userRepository: UserRepository,
   private val kakaoService: KakaoService,
 ) : DefaultOAuth2UserService() {
+  // OAuth2 로그인 시 호출됨
   @Throws(OAuth2AuthenticationException::class)
   override fun loadUser(userRequest: OAuth2UserRequest): UserDetailsImpl {
     val user = super.loadUser(userRequest)
+
+    // 사용자의 고유 id 값을 저장할 attribute명 (카카오 로그인의 경우 "id")
     val userNameAttributeName =
       userRequest.clientRegistration.providerDetails.userInfoEndpoint.userNameAttributeName
+
+    // application.yaml에 명시된 서비스 provider명 (카카오 로그인의 경우 "kakao") (
     val serviceType = userRequest.clientRegistration.registrationId
 
+    // 타 OAuth2 로그인 기능 추가시 when 문으로 변경 필요, 현재는 kakao 로그인만 취급
     if (!serviceType.equals("kakao")) {
       throw OAuth2AuthenticationException("""Invalid OAuth2 service: $serviceType""")
     }

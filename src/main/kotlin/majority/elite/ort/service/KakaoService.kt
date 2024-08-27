@@ -23,6 +23,7 @@ class KakaoService(
   fun loginWithKakao(oauthId: String): UserEntity {
     val existingUser = userRepository.findByOauthId(oauthId)
 
+    // 첫 로그인 시 DB에 신규 사용자 추가
     if (existingUser == null) {
       val userEntity = UserEntity(oauthId, OAuthType.KAKAO)
       userRepository.save(userEntity)
@@ -30,6 +31,7 @@ class KakaoService(
     } else return existingUser
   }
 
+  // 참고: https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#logout
   @Throws(KakaoApiFailureException::class)
   fun logoutKakao(oauthId: Long) {
     val restTemplate = RestTemplate()
@@ -37,6 +39,7 @@ class KakaoService(
     headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
     headers.set("Authorization", "KakaoAK ${kakaoConfig.adminKey}")
 
+    // 요청 Body
     val map = LinkedMultiValueMap<String, String>()
     map.add("target_id_type", "user_id")
     map.add("target_id", oauthId.toString())
@@ -50,6 +53,7 @@ class KakaoService(
     }
   }
 
+  // 참고: https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#unlink
   @Throws(KakaoApiFailureException::class)
   fun unlinkKakao(oauthId: Long) {
     val restTemplate = RestTemplate()
@@ -57,6 +61,7 @@ class KakaoService(
     headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
     headers.set("Authorization", "KakaoAK ${kakaoConfig.adminKey}")
 
+    // 요청 Body
     val map = LinkedMultiValueMap<String, String>()
     map.add("target_id_type", "user_id")
     map.add("target_id", oauthId.toString())

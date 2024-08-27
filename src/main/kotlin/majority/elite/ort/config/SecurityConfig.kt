@@ -35,6 +35,7 @@ class SecurityConfig(
       authorizeHttpRequests { authorize(anyRequest, permitAll) }
       oauth2Login {
         userInfoEndpoint {
+          // 로그인 시 OAuth2UserService의 loadUser 호출
           userInfoEndpoint { userService = oauth2UserService }
           authenticationSuccessHandler = OAuth2SuccessHandler(ortJwtService)
         }
