@@ -1,4 +1,4 @@
-package majority.elite.ort.exception
+package majority.elite.ort.exception.auth
 
 class KakaoApiFailureException(private val errorResponse: String) : Exception() {
   val statusCode = 500

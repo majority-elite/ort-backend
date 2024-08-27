@@ -4,7 +4,7 @@ import javax.validation.Valid
 import lombok.RequiredArgsConstructor
 import majority.elite.ort.dto.RefreshAccessTokenRequestDTO
 import majority.elite.ort.dto.RefreshAccessTokenResponseDTO
-import majority.elite.ort.exception.TokenExpiredException
+import majority.elite.ort.exception.auth.TokenExpiredException
 import majority.elite.ort.exception.UnauthorizedException
 import majority.elite.ort.service.OAuth2UserService
 import majority.elite.ort.service.OrtJwtService

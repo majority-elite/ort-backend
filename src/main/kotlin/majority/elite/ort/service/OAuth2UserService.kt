@@ -4,7 +4,7 @@ import java.util.*
 import lombok.RequiredArgsConstructor
 import majority.elite.ort.domain.OAuthType
 import majority.elite.ort.domain.UserDetailsImpl
-import majority.elite.ort.exception.KakaoApiFailureException
+import majority.elite.ort.exception.auth.KakaoApiFailureException
 import majority.elite.ort.repository.UserRepository
 import org.springframework.http.*
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService

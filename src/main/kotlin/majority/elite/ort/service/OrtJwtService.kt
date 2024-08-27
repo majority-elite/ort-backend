@@ -10,7 +10,7 @@ import java.util.Date
 import javax.crypto.spec.SecretKeySpec
 import majority.elite.ort.config.JwtConfig
 import majority.elite.ort.domain.OrtJwt
-import majority.elite.ort.exception.TokenExpiredException
+import majority.elite.ort.exception.auth.TokenExpiredException
 import majority.elite.ort.exception.UnauthorizedException
 import majority.elite.ort.repository.UserRepository
 import org.springframework.stereotype.Service

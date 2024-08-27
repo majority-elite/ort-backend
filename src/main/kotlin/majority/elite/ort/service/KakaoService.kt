@@ -3,7 +3,7 @@ package majority.elite.ort.service
 import majority.elite.ort.config.KakaoConfig
 import majority.elite.ort.domain.OAuthType
 import majority.elite.ort.entity.UserEntity
-import majority.elite.ort.exception.KakaoApiFailureException
+import majority.elite.ort.exception.auth.KakaoApiFailureException
 import majority.elite.ort.repository.UserRepository
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders

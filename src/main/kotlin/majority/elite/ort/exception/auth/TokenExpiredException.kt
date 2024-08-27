@@ -1,4 +1,4 @@
-package majority.elite.ort.exception
+package majority.elite.ort.exception.auth
 
 class TokenExpiredException : Exception() {
   val statusCode = 401
