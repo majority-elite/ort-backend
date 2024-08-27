@@ -2,8 +2,8 @@ package majority.elite.ort.config
 
 import lombok.RequiredArgsConstructor
 import majority.elite.ort.handler.OAuth2SuccessHandler
-import majority.elite.ort.service.OrtJwtService
 import majority.elite.ort.service.OAuth2UserService
+import majority.elite.ort.service.OrtJwtService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -28,7 +28,7 @@ class SecurityConfig(
           val configuration = CorsConfiguration()
           configuration.maxAge = 3600L
           configuration.allowedHeaders = listOf("*")
-          configuration.exposedHeaders = listOf("Set-Cookie", "Authorization")
+          configuration.exposedHeaders = listOf("Authorization")
           configuration
         }
       }
