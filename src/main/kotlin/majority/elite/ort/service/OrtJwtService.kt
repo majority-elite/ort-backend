@@ -68,12 +68,21 @@ class OrtJwtService(private val userRepository: UserRepository, private val jwtC
   }
 
   // 토큰 유효성 검사 및 Claim 추출하여 반환
-  @Throws(TokenExpiredException::class, IllegalArgumentException::class, JwtException::class)
+  @Throws(
+    TokenExpiredException::class,
+    IllegalArgumentException::class,
+    JwtException::class,
+    UnauthorizedException::class,
+  )
   fun verifyToken(token: String): Claims {
     val parsedClaims = this.parseClaims(token)
 
     if (parsedClaims.expiration.before(Date())) {
       throw TokenExpiredException()
+    }
+
+    if (userRepository.findById(parsedClaims["userId"] as Long).isEmpty) {
+      throw UnauthorizedException()
     }
 
     return parsedClaims
