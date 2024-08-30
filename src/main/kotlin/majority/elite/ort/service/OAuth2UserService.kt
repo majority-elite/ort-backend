@@ -12,6 +12,10 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException
 import org.springframework.stereotype.Service
 
+/*
+ * 현재 OAuth2 외 로그인 방법 추가 예정이 없어 본 코드에 로그인, 로그아웃 등 유저 DB 조작 관련 코드 포함
+ * OAuth2 외 로그인 방법 추가 시 UserService 생성하여 해당 서비스에서 사용자 DB 관리, 본 서비스에서는 OAuth2 관련 코드만 포함
+ */
 @Service
 @RequiredArgsConstructor
 class OAuth2UserService(
