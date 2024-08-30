@@ -1,0 +1,47 @@
+spring:
+  config:
+    import: classpath:api.properties
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${db.postgres.connectionString}
+    username: ${db.postgres.user}
+    password: ${db.postgres.password}
+  jpa:
+    show-sql: true
+    hibernate:
+      # 기존 정보를 모두 삭제하고 DB 생성
+      # 정보 유지가 필요하다면 update로 설정 필요
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        default-schema: ort
+        format_sql: true
+    generate-ddl: false
+    database: postgresql
+  application:
+    name: "ort"
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-authentication-method: client_secret_post
+            client-name: kakao
+            client-id: ${oauth2.kakao.clientId}
+            client-secret: ${oauth2.kakao.clientSecret}
+            authorization-grant-type: authorization_code
+            provider: kakao
+            redirect-uri: ${oauth2.kakao.redirectUri}
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+              - talk_message
+              - talk_calendar
+              - talk_calendar_task
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id

@@ -1,0 +1,14 @@
+# Spring Boot, 라이브러리 설정값 외 임의로 작성한 Properties는 본 파일에 명시
+oauth2.kakao.clientId=
+oauth2.kakao.clientSecret=
+oauth2.kakao.redirectUri=ㄴ
+oauth2.kakao.logoutUri=https://kapi.kakao.com/v1/user/logout
+oauth2.kakao.unlinkUri=https://kapi.kakao.com/v1/user/unlink
+oauth2.kakao.adminKey=
+jwt.secret=
+jwt.accessTokenExpiresInSeconds=86400
+jwt.refreshTokenExpiresInSeconds=2629800
+jwt.issuer=ort
+db.postgres.connectionString=
+db.postgres.user=
+db.postgres.password=
