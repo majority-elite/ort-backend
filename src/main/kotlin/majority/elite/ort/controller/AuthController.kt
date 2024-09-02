@@ -1,11 +1,15 @@
 package majority.elite.ort.controller
 
-import javax.validation.Valid
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import lombok.RequiredArgsConstructor
 import majority.elite.ort.dto.RefreshAccessTokenRequestDTO
 import majority.elite.ort.dto.RefreshAccessTokenResponseDTO
-import majority.elite.ort.exception.auth.TokenExpiredException
 import majority.elite.ort.exception.UnauthorizedException
+import majority.elite.ort.exception.auth.TokenExpiredException
 import majority.elite.ort.service.OAuth2UserService
 import majority.elite.ort.service.OrtJwtService
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,8 +28,23 @@ class AuthController(
 ) {
   @PostMapping("/token/access")
   @Throws(UnauthorizedException::class, TokenExpiredException::class)
+  @ApiResponses(
+    value =
+      [
+        ApiResponse(
+          responseCode = "200",
+          content =
+            [
+              Content(
+                mediaType = "application/json",
+                schema = Schema(implementation = RefreshAccessTokenResponseDTO::class),
+              )
+            ],
+        )
+      ]
+  )
   fun refreshAccessToken(
-    @Valid @RequestBody requestBody: RefreshAccessTokenRequestDTO
+    @RequestBody requestBody: RefreshAccessTokenRequestDTO
   ): RefreshAccessTokenResponseDTO {
     val userId = (ortJwtService.verifyToken(requestBody.refreshToken)["userId"] as String).toLong()
     val accessToken = ortJwtService.createAccessToken(userId)
@@ -36,6 +55,7 @@ class AuthController(
     )
   }
 
+  @SecurityRequirement(name = "bearerAuth")
   @GetMapping("/logout")
   fun signOut(@RequestHeader("Authorization") bearerToken: String): String {
     val accessToken = bearerToken.split(" ")[1]
