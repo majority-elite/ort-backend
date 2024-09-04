@@ -1,7 +1,5 @@
 package majority.elite.ort.controller
 
-import io.swagger.v3.oas.annotations.responses.ApiResponse
-import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import majority.elite.ort.exception.UnauthorizedException
 import majority.elite.ort.exception.auth.TokenExpiredException
