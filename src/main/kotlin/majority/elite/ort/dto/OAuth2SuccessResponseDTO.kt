@@ -2,6 +2,7 @@ package majority.elite.ort.dto
 
 import majority.elite.ort.domain.OrtJwt
 
+// TODO("add validation")
 class OAuth2SuccessResponseDTO(
   private val userId: Long,
   private val accessToken: OrtJwt,
