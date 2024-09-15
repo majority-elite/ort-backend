@@ -10,5 +10,4 @@ class KakaoConfig {
   var logoutUri: String = ""
   var adminKey: String = ""
   var unlinkUri: String = ""
-  var authorizationUri: String = ""
 }
