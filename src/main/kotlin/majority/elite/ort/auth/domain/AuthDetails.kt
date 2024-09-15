@@ -1,7 +1,7 @@
 package majority.elite.ort.auth.domain
 
-import majority.elite.ort.oauth2.domain.OAuthType
 import kotlin.reflect.full.memberProperties
+import majority.elite.ort.oauth2.domain.OAuthType
 import majority.elite.ort.user.UserEntity
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.AuthorityUtils
@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User
  * Spring Security에 활용할 유저 정보
  * 차후 로그인 방식이 추가된다면 해당 방식에서 사용할 유저 정보 클래스를 본 클래스에 상속
  */
-class UserDetailsImpl(
+class AuthDetails(
   val id: Long,
   val oauthId: String?,
   val oauthType: OAuthType?,
@@ -23,8 +23,8 @@ class UserDetailsImpl(
 ) : UserDetails, OAuth2User {
   // static 함수 구현
   companion object {
-    fun fromUserEntity(userEntiity: UserEntity): UserDetailsImpl {
-      return UserDetailsImpl(
+    fun fromUserEntity(userEntiity: UserEntity): AuthDetails {
+      return AuthDetails(
         userEntiity.id,
         userEntiity.oauthId,
         userEntiity.oauthType,
