@@ -2,8 +2,8 @@ package majority.elite.ort.oauth2.service
 
 import java.util.*
 import lombok.RequiredArgsConstructor
+import majority.elite.ort.auth.domain.AuthDetails
 import majority.elite.ort.oauth2.domain.OAuthType
-import majority.elite.ort.auth.domain.UserDetailsImpl
 import majority.elite.ort.oauth2.exception.KakaoApiFailureException
 import majority.elite.ort.user.UserRepository
 import org.springframework.http.*
@@ -24,8 +24,7 @@ class OAuth2UserService(
 ) : DefaultOAuth2UserService() {
   // OAuth2 로그인 시 호출됨
   @Throws(OAuth2AuthenticationException::class)
-  override fun loadUser(userRequest: OAuth2UserRequest): UserDetailsImpl {
-    userRequest.additionalParameters["redirect_to"]
+  override fun loadUser(userRequest: OAuth2UserRequest): AuthDetails {
     val user = super.loadUser(userRequest)
 
     // 사용자의 고유 id 값을 저장할 attribute명 (카카오 로그인의 경우 "id")
@@ -42,7 +41,7 @@ class OAuth2UserService(
 
     val userEntity = kakaoService.loginWithKakao(user.attributes[userNameAttributeName].toString())
 
-    return UserDetailsImpl.fromUserEntity(userEntity)
+    return AuthDetails.fromUserEntity(userEntity)
   }
 
   @Throws(KakaoApiFailureException::class)
@@ -75,5 +74,9 @@ class OAuth2UserService(
     }
 
     userRepository.delete(userEntity.get())
+  }
+
+  fun registerOAuthKey(userId: Long) {
+
   }
 }

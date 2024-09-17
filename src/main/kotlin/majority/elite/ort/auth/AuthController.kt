@@ -8,10 +8,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import lombok.RequiredArgsConstructor
 import majority.elite.ort.auth.dto.RefreshAccessTokenRequestDTO
 import majority.elite.ort.auth.dto.RefreshAccessTokenResponseDTO
-import majority.elite.ort.exception.UnauthorizedException
 import majority.elite.ort.auth.exception.TokenExpiredException
-import majority.elite.ort.oauth2.service.OAuth2UserService
 import majority.elite.ort.auth.service.OrtJwtService
+import majority.elite.ort.exception.UnauthorizedException
+import majority.elite.ort.oauth2.service.OAuth2UserService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/auth")
 class AuthController(
   private val ortJwtService: OrtJwtService,

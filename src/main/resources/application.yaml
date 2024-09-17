@@ -14,6 +14,14 @@ spring:
     url: ${db.postgres.connectionString}
     username: ${db.postgres.user}
     password: ${db.postgres.password}
+  data:
+    redis:
+      lettuce:
+        pool:
+          enabled: true
+          max-active: ${db.redis.maxActive}
+          max-idle: ${db.redis.maxIdle}
+          min-idle: ${db.redis.minIdle}
   jpa:
     show-sql: true
     hibernate:
