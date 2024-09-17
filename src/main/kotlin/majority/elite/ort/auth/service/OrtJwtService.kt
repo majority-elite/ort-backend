@@ -30,7 +30,7 @@ class OrtJwtService(private val userRepository: UserRepository, private val jwtC
       throw UnauthorizedException()
     }
 
-    val expiresAt = Date(Date().time + jwtConfig.accessTokenExpiresInSeconds)
+    val expiresAt = Date(Date().time + jwtConfig.accessTokenExpiresInSeconds * 1000)
 
     return OrtJwt(
       Jwts.builder()
@@ -48,7 +48,7 @@ class OrtJwtService(private val userRepository: UserRepository, private val jwtC
 
   @Throws(UnauthorizedException::class)
   fun createRefreshToken(userId: Long): OrtJwt {
-    val expiresAt = Date(Date().time + jwtConfig.refreshTokenExpiresInSeconds)
+    val expiresAt = Date(Date().time + jwtConfig.refreshTokenExpiresInSeconds * 1000)
 
     return OrtJwt(
       Jwts.builder()
