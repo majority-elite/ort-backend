@@ -75,8 +75,4 @@ class OAuth2UserService(
 
     userRepository.delete(userEntity.get())
   }
-
-  fun registerOAuthKey(userId: Long) {
-
-  }
 }
