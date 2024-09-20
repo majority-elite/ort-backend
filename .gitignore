@@ -36,3 +36,7 @@ out/
 ### Kotlin ###
 .kotlin
 api.properties
+
+### Log ###
+logs/
+*.log

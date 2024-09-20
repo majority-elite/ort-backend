@@ -34,6 +34,10 @@ dependencies {
   runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
   runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+  implementation("io.lettuce:lettuce-core:6.4.0.RELEASE")
+  implementation("org.springframework.boot:spring-boot-starter-data-redis")
+  implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+  implementation("org.apache.commons:commons-pool2")
 }
 
 kotlin { compilerOptions { freeCompilerArgs.addAll("-Xjsr305=strict") } }
