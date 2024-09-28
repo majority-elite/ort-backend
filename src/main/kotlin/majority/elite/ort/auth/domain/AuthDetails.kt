@@ -17,7 +17,6 @@ class AuthDetails(
   val oauthId: String?,
   val oauthType: OAuthType?,
   val role: UserAuthority,
-  val nickname: String?,
   val mail: String?,
   val tel: String?,
 ) : UserDetails, OAuth2User {
@@ -29,7 +28,6 @@ class AuthDetails(
         userEntiity.oauthId,
         userEntiity.oauthType,
         userEntiity.role,
-        userEntiity.nickname,
         userEntiity.mail,
         userEntiity.tel,
       )

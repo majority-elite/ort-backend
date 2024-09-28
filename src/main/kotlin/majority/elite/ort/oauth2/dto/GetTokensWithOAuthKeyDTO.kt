@@ -6,4 +6,5 @@ class GetTokensWithOAuthKeyDTO(
   val accessTokenExpiresAt: String,
   val refreshToken: String,
   val refreshTokenExpiresAt: String,
+  val allRequiredInfoProvided: Boolean,
 )
