@@ -19,7 +19,7 @@ class UserEntity(
   @Enumerated(EnumType.STRING)
   @Default
   var role: UserAuthority = UserAuthority.USER
-  @Column(name = "nickname", nullable = true) var nickname: String? = null
   @Column(name = "mail", nullable = true) var mail: String? = null
   @Column(name = "tel", nullable = true) var tel: String? = null
+  @Column(name = "name", nullable = true) var name: String? = null
 }
