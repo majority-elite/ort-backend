@@ -3,6 +3,7 @@ package majority.elite.ort.oauth2.service
 import java.util.*
 import lombok.RequiredArgsConstructor
 import majority.elite.ort.auth.domain.AuthDetails
+import majority.elite.ort.exception.UnauthorizedException
 import majority.elite.ort.oauth2.domain.OAuthType
 import majority.elite.ort.oauth2.exception.KakaoApiFailureException
 import majority.elite.ort.user.UserRepository
@@ -74,5 +75,18 @@ class OAuth2UserService(
     }
 
     userRepository.delete(userEntity.get())
+  }
+
+  @Throws(UnauthorizedException::class)
+  fun isAllRequiredInfoProvided(userId: Long): Boolean {
+    val userEntity = userRepository.findById(userId)
+
+    if (userEntity.isEmpty) {
+      throw UnauthorizedException()
+    }
+
+    return !(userEntity.get().name == null ||
+      userEntity.get().tel == null ||
+      userEntity.get().mail == null)
   }
 }
