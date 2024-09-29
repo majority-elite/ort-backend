@@ -85,8 +85,8 @@ class OAuth2UserService(
       throw UnauthorizedException()
     }
 
-    return userEntity.get().name == null ||
+    return !(userEntity.get().name == null ||
       userEntity.get().tel == null ||
-      userEntity.get().mail == null
+      userEntity.get().mail == null)
   }
 }

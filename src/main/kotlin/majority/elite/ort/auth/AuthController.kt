@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
-import lombok.RequiredArgsConstructor
 import majority.elite.ort.auth.dto.RefreshAccessTokenRequestDTO
 import majority.elite.ort.auth.dto.RefreshAccessTokenResponseDTO
 import majority.elite.ort.auth.exception.TokenExpiredException
@@ -51,6 +50,7 @@ class AuthController(
     return RefreshAccessTokenResponseDTO(
       accessToken.tokenValue,
       accessToken.getExpiresAtIsoString(),
+      oAuth2UserService.isAllRequiredInfoProvided(userId),
     )
   }
 
